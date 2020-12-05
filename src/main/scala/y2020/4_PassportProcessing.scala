@@ -67,7 +67,7 @@ object PassportProcessing extends App{
   def validPassport(map: collection.mutable.Map[String,String]): Boolean = {
     if (!fieldNames.forall(map.contains)) return false
 
-    val pspt = Passport(
+    Passport(
       map("byr").toInt,
       map("iyr").toInt,
       map("eyr").toInt,
@@ -76,9 +76,7 @@ object PassportProcessing extends App{
       map("ecl"),
       map("pid"),
       0
-    )
-
-    pspt.isValid
+    ).isValid
   }
 
   def validatePassportFields(doc: Iterator[String]): Int = {
@@ -93,7 +91,8 @@ object PassportProcessing extends App{
         passport ++= parseLine(line)
       }
     }
-
+    
+    // Account for the last line in the file
     acc + {if (validPassport(passport)) 1 else 0}
   }
 
