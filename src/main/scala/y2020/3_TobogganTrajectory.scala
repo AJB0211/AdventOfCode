@@ -22,7 +22,7 @@ object Main extends App {
 
   // Long conversion is important because there will be integer overflow
   // Final answer is product of all answers for traversal methods in traversals
-  println(s"Final answer: ${results.foldRight(1.toLong){_ * _}}")
+  println(s"Final answer: ${results.foldRight(1L){_ * _}}")
 }
 
 object TobogganTrajectory {
@@ -60,8 +60,9 @@ class TobogganTrajectory(val hill: Array[Array[Int]]) {
   /**
    * Case class makes it easier to pass data around
    * Note that x and y are in math coordinates, reverse of array coordinates
-   * @param x Position along row
-   * @param y position along column
+   *
+   * @param x location along row
+   * @param y location along column
    */
   case class Position(val x: Int, val y: Int) {
     def at: Int = hill(y)(x)
