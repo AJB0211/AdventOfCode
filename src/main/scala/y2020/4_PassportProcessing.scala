@@ -143,7 +143,6 @@ case class Passport(
        */
       val cVal = c.toInt
       if ( cVal < 48 || (cVal > 57 && cVal < 97) || cVal > 102 ) return false
-      //if (!(c.toInt >= 48 && c.toInt <= 57) || !(c.toInt >= 97 && c.toInt <= 102)) return false
     }
 
     true

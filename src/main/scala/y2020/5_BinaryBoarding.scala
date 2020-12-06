@@ -13,7 +13,7 @@ object BinaryBoarding extends App {
       if (pass(i) == lowChar) {upper -= ((upper - lower) / 2) + 1}
       else {lower += ((upper - lower) / 2) + 1}
 
-    if (pass(endIdx - 1) == lowChar)  lower
+    if (pass(endIdx - 1) == lowChar) lower
     else upper
   }
 
@@ -37,7 +37,8 @@ object BinaryBoarding extends App {
    * pop values off heap to find where gap is 2
    * Answer is between those two values
    * This is a max heap so we read from the highest seat index going down
-   * @param heap
+   *
+   * @param heap constructed during solution finding for part 1
    * @return your seat index, an integer
    */
   def readHeap(heap: collection.mutable.PriorityQueue[Int]): Int = {

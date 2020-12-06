@@ -1,31 +1,6 @@
 package ajb0211.Advent.y2020
 
-object Main extends App {
-  val toboggan = TobogganTrajectory("y2020/3.txt")
-
-  println(s"Part 1: ${toboggan.sled(3,1).sum}")
-  println
-
-  val traversals: Array[(Int,Int)] = Array(
-    (1, 1),
-    (3, 1),
-    (5, 1),
-    (7, 1),
-    (1, 2)
-  )
-
-  val results: Array[Int] = traversals.map{ case (right: Int, down: Int) =>
-    val out = toboggan.sled(right,down).sum
-    println(s"(Right: $right, Down: $down): $out")
-    out
-  }
-
-  // Long conversion is important because there will be integer overflow
-  // Final answer is product of all answers for traversal methods in traversals
-  println(s"Final answer: ${results.foldRight(1L){_ * _}}")
-}
-
-object TobogganTrajectory {
+object TobogganTrajectory extends App {
   type Hill = Array[Array[Int]]
 
   /**
@@ -52,6 +27,28 @@ object TobogganTrajectory {
       }.toArray
   }
 
+  val toboggan = TobogganTrajectory("y2020/3.txt")
+
+  println(s"Part 1: ${toboggan.sled(3,1).sum}")
+  println
+
+  val traversals: Array[(Int,Int)] = Array(
+    (1, 1),
+    (3, 1),
+    (5, 1),
+    (7, 1),
+    (1, 2)
+  )
+
+  val results: Array[Int] = traversals.map{ case (right: Int, down: Int) =>
+    val out = toboggan.sled(right,down).sum
+    println(s"(Right: $right, Down: $down): $out")
+    out
+  }
+
+  // Long conversion is important because there will be integer overflow
+  // Final answer is product of all answers for traversal methods in traversals
+  println(s"Final answer: ${results.foldRight(1L){_ * _}}")
 }
 
 class TobogganTrajectory(val hill: Array[Array[Int]]) {
@@ -64,7 +61,7 @@ class TobogganTrajectory(val hill: Array[Array[Int]]) {
    * @param x location along row
    * @param y location along column
    */
-  case class Position(val x: Int, val y: Int) {
+  case class Position(x: Int, y: Int) {
     def at: Int = hill(y)(x)
     def update(dx: Int, dy: Int): Position = Position((x + dx) % hillWidth, y + dy)
   }
