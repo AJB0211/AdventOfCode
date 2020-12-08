@@ -135,7 +135,7 @@ object HandheldHalting extends App {
 
   val fixedSol = runAll(fixInstructions(instructions))
   println("PART 2")
-  println("Value of accumulator after correction: $fixedSol")
+  println(s"Value of accumulator after correction: $fixedSol")
 
 }
 
