@@ -1,7 +1,9 @@
 package ajb0211.Advent.y2020
 
+import ajb0211.Advent.util.readFile
+
 object PasswordPhilosphy extends App {
-  val passBank: List[Password] = io.Source.fromResource("y2020/2.txt").getLines.toList.map(Password(_))
+  val passBank: List[Password] = readFile("y2020/2.txt").toList.map(Password(_))
 
   println(passBank.map((p:Password) => if (p.isValid) 1 else 0).sum)
   println(passBank.map((p:Password) => if (p.isValid2) 1 else 0).sum)

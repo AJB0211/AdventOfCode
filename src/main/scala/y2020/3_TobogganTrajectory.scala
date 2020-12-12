@@ -1,5 +1,7 @@
 package ajb0211.Advent.y2020
 
+import ajb0211.Advent.util.readFile
+
 object TobogganTrajectory extends App {
   type Hill = Array[Array[Int]]
 
@@ -10,7 +12,7 @@ object TobogganTrajectory extends App {
    * @return TobogganTrajectory with path information loaded as a Hill
    */
   def apply(path: String): TobogganTrajectory = {
-    new TobogganTrajectory(readFile(path))
+    new TobogganTrajectory(readHill(path))
   }
 
   /**
@@ -22,7 +24,7 @@ object TobogganTrajectory extends App {
    * @param path file in resources folder containing data
    * @return Hill, see type
    */
-  def readFile(path: String): Hill = io.Source.fromResource(path).getLines.toArray.map{ _.map{
+  def readHill(path: String): Hill = readFile(path).toArray.map{ _.map{
       (c: Char) => if (c=='#') 1 else 0
       }.toArray
   }

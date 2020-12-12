@@ -1,9 +1,9 @@
 package ajb0211.Advent.y2020
 
-import scala.io.Source
+import ajb0211.Advent.util.readFile
 
 object ReportRepair extends App {
-  val report: List[Int] = Source.fromResource("y2020/1.txt").getLines.toList.map(_.toInt)
+  val report: List[Int] = readFile("y2020/1.txt").toList.map(_.toInt)
 
   @annotation.tailrec
   def findComplementProduct(target: Int = 2020, report: List[Int], acc: Set[Int] = Set[Int]()): Unit = {

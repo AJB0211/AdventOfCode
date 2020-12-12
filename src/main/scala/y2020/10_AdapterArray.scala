@@ -1,8 +1,9 @@
 package ajb0211.Advent.y2020
 
+import ajb0211.Advent.util.readFile
+
 object AdapterArray extends App {
-  def readFile(path: String): Iterator[String] = io.Source.fromResource(path).getLines
-  def adapters = readFile("y2020/10.txt").map(_.toInt).toArray
+  def adapters: Array[Int] = readFile("y2020/10.txt").map(_.toInt).toArray
 
   def joltDifferences(adapters: Array[Int]): Int = {
     var ones = 0
@@ -36,9 +37,9 @@ object AdapterArray extends App {
     dynamically(0) = 1
 
     sorted.foreach { (i: Int) =>
-      if (i == 1) dynamically(i) = dynamically(i-1)
-      else if (i==2) dynamically(i) = dynamically(i-1) + dynamically(i-2)
-      else dynamically(i) = dynamically(i-1) + dynamically(i-2) + dynamically(i-3)
+      if      (i == 1) dynamically(i) = dynamically(i-1)
+      else if (i == 2) dynamically(i) = dynamically(i-1) + dynamically(i-2)
+      else             dynamically(i) = dynamically(i-1) + dynamically(i-2) + dynamically(i-3)
     }
 
     dynamically.last

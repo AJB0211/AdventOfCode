@@ -1,7 +1,8 @@
 package ajb0211.Advent.y2020
 
+import ajb0211.Advent.util.readFile
+
 object CustomCustoms extends App {
-  def readFile(path: String): Iterator[String] = io.Source.fromResource(path).getLines
   def papers: Iterator[String] = readFile("y2020/6.txt")
 
   def countAny(doc: Iterator[String]): Int = {

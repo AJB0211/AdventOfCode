@@ -1,9 +1,10 @@
 package ajb0211.Advent.y2020
 
 import java.util.InputMismatchException
+import ajb0211.Advent.util.readFile
 
 object BinaryBoarding extends App {
-  val docs: Iterator[String] = io.Source.fromResource("y2020/5.txt").getLines
+  val docs: Iterator[String] = readFile("y2020/5.txt")
 
   def parseSegment(pass: String, startIdx: Int, endIdx: Int, lowChar: Char): Int = {
     var lower = 0

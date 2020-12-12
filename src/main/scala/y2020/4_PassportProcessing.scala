@@ -1,5 +1,7 @@
 package ajb0211.Advent.y2020
 
+import ajb0211.Advent.util.readFile
+
 /**
  * I hated all of this and take no pride in this garbage solution
  */
@@ -17,8 +19,6 @@ object PassportProcessing extends App{
 
   val fieldMap: Map[String,Int] = fieldNames.zipWithIndex.toMap
   val pattern = raw"(\w{3})[:]".r
-
-  def readFile(path: String): Iterator[String] = io.Source.fromResource(path).getLines
 
   // For part 1
   def extractLine(line: String): Iterator[String] = pattern.findAllMatchIn(line).map(_.group(1))

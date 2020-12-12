@@ -1,11 +1,11 @@
 package ajb0211.Advent.y2020
 
 import java.util.InputMismatchException
+import ajb0211.Advent.util.readFile
 
 object HandheldHalting extends App {
   type Instructions = Array[Instruction]
 
-  def readFile(path: String): Iterator[String] = io.Source.fromResource(path).getLines
   val instructions: Instructions = readFile("y2020/8.txt").map{Instruction(_)}.toArray
 
   /**

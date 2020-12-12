@@ -1,9 +1,9 @@
 package ajb0211.Advent.y2020
 
 import collection.mutable.{ListBuffer, ArrayBuffer}
+import ajb0211.Advent.util.readFile
 
 object HandyHaversacks extends App {
-  def readFile(path: String): Iterator[String] = io.Source.fromResource(path).getLines
   def bags = readFile("y2020/7.txt")
 
   val graph = new SackGraph(bags)

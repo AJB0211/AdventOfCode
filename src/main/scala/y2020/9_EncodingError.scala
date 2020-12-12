@@ -1,9 +1,9 @@
 package ajb0211.Advent.y2020
 
 import java.util.EmptyStackException
+import ajb0211.Advent.util.readFile
 
 object EncodingError extends App {
-  def readFile(path: String): Iterator[String] = io.Source.fromResource(path).getLines
   def encoding: Iterator[Int] = readFile("y2020/9.txt").map(_.toInt)
 
   // If using test file, set to 5
