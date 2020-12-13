@@ -1,6 +1,5 @@
 package ajb0211.Advent.y2020
 
-import scala.reflect.Manifest
 import ajb0211.Advent.util.readFile
 
 object SeatingSystem extends App {
@@ -30,6 +29,13 @@ class Ferry(var seating: Array[Array[Char]]){
     '#' -> 1
   )
 
+  /**
+   * Seat object implements logic for searching around an individual seat
+   * Note that seat status is still stored in the outer array inside class Ferry
+   * By nesting, this class has access to the array without having to worry about passing it
+   * @param row
+   * @param col
+   */
   class Seat(val row: Int, val col: Int){
 
     def isValid: Boolean = (row >= 0) && (col >= 0) && (row < height) && (col < width)
@@ -64,6 +70,11 @@ class Ferry(var seating: Array[Array[Char]]){
 
   }
 
+  /**
+   * Implements new adjacency logic for Part 2
+   * @param row
+   * @param col
+   */
   private class FarSeat(row: Int, col: Int) extends Seat(row, col) {
     protected def firstInDirection(di: Int, dj: Int): Option[FarSeat] = {
       var i = di
@@ -99,13 +110,13 @@ class Ferry(var seating: Array[Array[Char]]){
     seating.map(_.mkString(" ")).mkString("\n")
   }
 
-  def iterate: Boolean = {
+  def iterate[T <: Seat](constructor: (Int,Int)=>T): Boolean = {
     var swapFlag = false
     val tempSeating = seating.map(_.clone)
 
     for (i <- seating.indices;
          j <- seating(i).indices){
-      val seat = new Seat(i, j)
+      val seat = constructor(i,j)
       if (seat.isSwap) {swapFlag = true; tempSeating(i)(j) = seat.swap}
     }
 
@@ -113,22 +124,8 @@ class Ferry(var seating: Array[Array[Char]]){
     swapFlag
   }
 
-  def iterate2: Boolean = {
-    var swapFlag = false
-    val tempSeating = seating.map(_.clone)
-
-    for (i <- seating.indices;
-         j <- seating(i).indices){
-      val seat = new FarSeat(i, j)
-      if (seat.isSwap) {swapFlag = true; tempSeating(i)(j) = seat.swap}
-    }
-
-    seating = tempSeating
-    swapFlag
-  }
-
-  def relax: Unit = while(iterate){}
-  def relax2: Unit = while(iterate2){}
+  def relax: Unit  = while(iterate(new Seat(_,_))){}
+  def relax2: Unit = while(iterate(new FarSeat(_,_))){}
 
   def numOccupied: Int = {
     for (i <- seating.indices;

@@ -76,9 +76,9 @@ case class Ship(direction: Int, x: Int, y: Int){
   def manhattan(ref: Ship = Ship(1,0,0)): Int = math.abs(x - ref.x) + math.abs(y - ref.y)
 
   /**
-   *
-   * @param theta
-   * @return
+   * Update rule for direction field when the ship is turned
+   * @param theta input angle to turn
+   * @return resulting heading after turns
    */
   private def turn(theta: Int): Int = (4 + ((direction + (theta/90)) % 4)) % 4
 
@@ -138,7 +138,7 @@ case class Waypoint(x: Int, y: Int){
     else Waypoint(y, -1*x).turnRight(n-1)
 
   def move(action: Action): Waypoint = action match {
-    case Forward(du) => this
+    case Forward(_) => this
     case North(dy) => Waypoint(x, y+dy)
     case South(dy) => Waypoint(x, y-dy)
     case East(dx) => Waypoint(x+dx, y)
