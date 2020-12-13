@@ -1,7 +1,8 @@
-package ajb0211.Advent.y2020
+package y2020.day7
 
-import collection.mutable.{ListBuffer, ArrayBuffer}
 import ajb0211.Advent.util.readFile
+
+import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 
 object HandyHaversacks extends App {
   def bags = readFile("y2020/7.txt")

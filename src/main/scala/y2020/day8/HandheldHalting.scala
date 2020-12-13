@@ -1,6 +1,7 @@
-package ajb0211.Advent.y2020
+package y2020.day8
 
 import java.util.InputMismatchException
+
 import ajb0211.Advent.util.readFile
 
 object HandheldHalting extends App {

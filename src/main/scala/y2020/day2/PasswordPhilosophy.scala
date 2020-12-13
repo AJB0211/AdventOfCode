@@ -1,4 +1,4 @@
-package ajb0211.Advent.y2020
+package y2020.day2
 
 import ajb0211.Advent.util.readFile
 

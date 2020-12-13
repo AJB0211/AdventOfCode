@@ -1,4 +1,4 @@
-package ajb0211.Advent.y2020
+package y2020.day12
 
 import ajb0211.Advent.util.readFile
 
@@ -30,29 +30,29 @@ object RainRisk extends App {
  * Representation of directions in input set
  * Provides access to case matching for clean syntax
  */
-sealed abstract class Action
+sealed trait Action{val units: Int}
 case class North(units: Int) extends Action
 case class South(units: Int) extends Action
 case class East(units: Int) extends Action
 case class West(units: Int) extends Action
 case class Left(units: Int) extends Action
 case class Right(units: Int) extends Action
-case class Forward(Units: Int) extends Action
+case class Forward(units: Int) extends Action
 
 /**
  * Class object to parse lines into corresponding actions
  */
 object Action{
   def apply(line: String): Action = {
-    val Line = raw"(\D)(\d+)".r
-    line match {
-      case Line(d, n) if d(0) == 'N' => North(n.toInt)
-      case Line(d, n) if d(0) == 'S' => South(n.toInt)
-      case Line(d, n) if d(0) == 'E' => East(n.toInt)
-      case Line(d, n) if d(0) == 'W' => West(n.toInt)
-      case Line(d, n) if d(0) == 'L' => Left(n.toInt)
-      case Line(d, n) if d(0) == 'R' => Right(n.toInt)
-      case Line(d, n) if d(0) == 'F' => Forward(n.toInt)
+    val n = line.tail.toInt
+    line(0) match {
+      case 'N' => North(n.toInt)
+      case 'S' => South(n.toInt)
+      case 'E' => East(n.toInt)
+      case 'W' => West(n.toInt)
+      case 'L' => Left(n.toInt)
+      case 'R' => Right(n.toInt)
+      case 'F' => Forward(n.toInt)
     }
   }
 }
@@ -83,12 +83,13 @@ case class Ship(direction: Int, x: Int, y: Int){
   private def turn(theta: Int): Int = (4 + ((direction + (theta/90)) % 4)) % 4
 
   def move(action: Action): Ship = action match {
-    case Forward(du) =>
-      if      (direction == 0) Ship(direction, x, y+du)
-      else if (direction == 1) Ship(direction, x+du, y)
-      else if (direction == 2) Ship(direction, x, y-du)
-      else if (direction == 3) Ship(direction, x-du, y)
-      else throw new Exception("Invalid Heading")
+    case Forward(du) => direction match {
+      case 0 => Ship(direction, x, y + du)
+      case 1 => Ship(direction, x + du, y)
+      case 2 => Ship(direction, x, y - du)
+      case 3 => Ship(direction, x - du, y)
+      case _ => throw new Exception("Invalid Heading")
+    }
     case North(dy) => Ship(direction, x, y+dy)
     case South(dy) => Ship(direction, x, y-dy)
     case East(dx) => Ship(direction, x+dx, y)

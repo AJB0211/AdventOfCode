@@ -1,6 +1,7 @@
-package ajb0211.Advent.y2020
+package y2020.day9
 
 import java.util.EmptyStackException
+
 import ajb0211.Advent.util.readFile
 
 object EncodingError extends App {
