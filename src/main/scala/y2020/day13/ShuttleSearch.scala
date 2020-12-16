@@ -49,9 +49,9 @@ class Schedule(val minTime:Int, val schedule: Array[Option[Int]]) {
 
   /**
    * Solves the defined problem in part 2 using the Chinese Remainder Theorem
-   *  For a set of integers {n} which are all greater than one and pairwise coprime
+   *  For a set of integers {n} which are all are greater than one and pairwise coprime
    *  N := product({n})
-   *  There are a set of integers {a}: a_i \in [0,n_i)
+   *  There is a set of integers {a}: a_i \in [0,n_i)
    *    where x % n_i = a_i
    *  Then there is only one unique integer x \in [0,N) that satisfies this relationship for every {(n_i,a_i)}
    *
@@ -62,7 +62,7 @@ class Schedule(val minTime:Int, val schedule: Array[Option[Int]]) {
    * @return minimum time where series definition holds
    */
   def minSeries: Long = {
-    // See comment for why these variables are names as such
+    // See comment for why these variables are named as such
     var a = 0     // index in list
     var x = 0L    // accumulator of checked results, will be solution
     var step = 1L // step size
@@ -72,17 +72,17 @@ class Schedule(val minTime:Int, val schedule: Array[Option[Int]]) {
         while ((x+a) % n != 0) {
           x += step
         }
-        /*
-         Step size here is the product seen buses
-         This is due to the fact that all buses have prime time intervals, implying the set is coprime
-         We are taking steps of the Least Common Multiple of the values we have seen so far
-         These are the cases where the desired relationship will be maintained
-         Notice that the relationship for some subset of values must hold for the whole set
-         So we can build up to the solution by arithmetic progression
-         The primeness of all numbers implies the LCM is the product of all values
+      /*
+       Step size here is the product seen buses
+       This is due to the fact that all buses have prime time intervals, implying the set is coprime
+       We are taking steps of the Least Common Multiple of the values we have seen so far
+       These are the cases where the desired relationship will be maintained
+       Notice that the relationship for some subset of values must hold for the whole set
+       So we can build up to the solution by arithmetic progression
+       The primeness of all elements implies the LCM is the product of all elements in the observed subset
 
-         Alternately, in terms of CRT, see "Search by Sieving"
-         */
+       Alternately, in terms of CRT, see "Search by Sieving"
+       */
         step *= n
         a += 1
       case _ => a += 1
