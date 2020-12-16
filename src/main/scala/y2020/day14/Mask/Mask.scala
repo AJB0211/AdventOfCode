@@ -10,6 +10,5 @@ abstract class Mask[T](line: String = " = ") {
   def applyMask(mem: String): T
 
   def apply(mem: String): T = applyMask(mem)
-
 }
 
