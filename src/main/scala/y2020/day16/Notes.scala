@@ -12,6 +12,7 @@ case class TicketField(name: String, min1: Int, max1: Int, min2: Int, max2: Int)
 }
 
 class Notes(val fields: Array[TicketField], val yourTicket: Array[Int], val tickets: Array[Array[Int]]) {
+  // Set of valid values, used to find what values define invalid tickets
   lazy val validValues: Set[Int] = fields.foldLeft(Set.empty[Int]){ _ union _.toSet}
 
   lazy val invalidTicketValues: Array[Int] = tickets.flatMap( ticket => ticket.filterNot(validValues contains) )
@@ -20,6 +21,9 @@ class Notes(val fields: Array[TicketField], val yourTicket: Array[Int], val tick
   def isValidTicket(ticket: Array[Int]): Boolean = ticket.forall(validValues contains)
   lazy val validTickets: Array[Int] = tickets.indices.filter{ i => isValidTicket(tickets(i))}.toArray
 
+  /**
+   * Constructs map from index in fields to index in each ticket
+   */
   lazy val ticketFieldMap: Map[Int,Int] = {
     // Array of what each field can be
     val idxSetArray = Array.fill(fields.length)(mutable.Set.empty[Int])
@@ -39,10 +43,16 @@ class Notes(val fields: Array[TicketField], val yourTicket: Array[Int], val tick
       }
     }}
 
-    // Now clean up the set by taking disjunctions
+    /*
+      Now clean up the sets by taking disjunctions
+      Unclear if this solution is general
+      But it makes sense that if there aren't sufficient fields with known locations at this point
+      The problem may not have a unique solution
+     */
     while (idxSetArray.exists{(s: mutable.Set[Int]) => s.size > 1}) {
       for (set <- idxSetArray;
            set2 <- idxSetArray
+      // Guard against same set because otherwise you'll wipe it
            if !(set eq set2)){
         if (set2.size == 1){
           set --= set2
@@ -53,6 +63,9 @@ class Notes(val fields: Array[TicketField], val yourTicket: Array[Int], val tick
     idxSetArray.zipWithIndex.map{ case(s, i) => (s.head, i)}.toMap[Int,Int]
   }
 
+  /**
+   * Finds "departure" fields from ticket names
+   */
   lazy val departureIndices: Array[Int] = {
     val departure = raw"^depart".r
     fields.indices.filterNot{ i =>
@@ -60,20 +73,22 @@ class Notes(val fields: Array[TicketField], val yourTicket: Array[Int], val tick
     }.toArray
   }
 
+  // Solution to Part 2
   def yourDepartureValues: Array[Int] = departureIndices.map( i => yourTicket(ticketFieldMap(i)))
   def yourDepartureProduct: Long = yourDepartureValues.foldRight(1L)(_ * _)
-
-
-
 }
 
 
-
-
 object Notes {
+  // Regexes for line parsing
   private val namePattern = raw"^([\s\w]+)".r
   private val numPattern = raw"(\d+)".r
 
+  /**
+   * Parser for lines associated with ticket fields
+   * @param line input string
+   * @return TicketField object describing field
+   */
   def parseFieldLine(line: String): TicketField = {
     val name = namePattern.findFirstIn(line).get
     val rangeVals = numPattern.findAllIn(line)
@@ -81,8 +96,18 @@ object Notes {
     TicketField(name, rangeVals.next.toInt, rangeVals.next.toInt, rangeVals.next.toInt, rangeVals.next.toInt)
   }
 
+  /**
+   * Parser for line associated with tickets
+   * @param line input string
+   * @return array of field values
+   */
   def parseTicket(line: String): Array[Int] = line.split(",").map(_.toInt)
 
+  /**
+   * Read notes and generate Notes class containing this information
+   * @param file path in resources
+   * @return new Notes object
+   */
   def readInput(file: String): Notes = {
     val notes: Iterator[String] = readFile(file)
 
@@ -100,5 +125,8 @@ object Notes {
     new Notes(fields, yourTicket, tickets)
   }
 
+  /**
+   * Convenient object constructor
+   */
   def apply(file: String): Notes = readInput(file)
 }
