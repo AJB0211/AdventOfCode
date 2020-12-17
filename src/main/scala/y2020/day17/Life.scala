@@ -2,8 +2,10 @@ package y2020.day17
 
 import ajb0211.Advent.util.readFile
 
+import scala.collection.MapView
+
 class Life(val board: Board) {
-  def update(cube: Cube, count: Int): Option[Cube] = if (board contains cube) {
+  protected def update(cube: Cube, count: Int): Option[Cube] = if (board contains cube) {
     if ((count == 2) || (count == 3)) Some(cube)
     else None
   } else {
@@ -11,12 +13,12 @@ class Life(val board: Board) {
     else None
   }
 
-  private def buildAdjacencyMap = board.toSeq.
+  protected def buildAdjacencyMap: MapView[Cube, Int] = board.toSeq.
     flatMap(_.getAdjacent).
     groupBy(identity).
     view.mapValues(_.size)
 
-  private lazy val nextBoard: Board = buildAdjacencyMap.
+  protected lazy val nextBoard: Board = buildAdjacencyMap.
     flatMap{ case (cube, count) => update(cube, count)}.
     toSet
 

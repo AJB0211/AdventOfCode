@@ -3,8 +3,6 @@ package y2020.day14
 import ajb0211.Advent.util.readFile
 import y2020.day14.Register.{Version1, Version2}
 
-import scala.collection.mutable
-
 object DockingData extends App {
   def input = readFile("y2020/14.txt")
 

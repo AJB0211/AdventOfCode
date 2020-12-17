@@ -9,7 +9,7 @@ package y2020
 package object day17 {
   type Board = Set[Cube]
   case class Cube(x: Int, y: Int, z: Int){
-    def getAdjacent = for (
+    def getAdjacent: Seq[Cube] = for (
       xi <- -1 to 1;
       yi <- -1 to 1;
       zi <- -1 to 1
@@ -18,7 +18,7 @@ package object day17 {
   }
 
   case class HyperCube(x: Int, y: Int, z: Int, t: Int){
-    def getAdjacent = for (
+    def getAdjacent: Seq[HyperCube] = for (
       xi <- -1 to 1;
       yi <- -1 to 1;
       zi <- -1 to 1;
